@@ -1,0 +1,12 @@
+{
+  "name": "my-first-idea",
+  "version": "1.0.0",
+  "description": "내 첫 번째 아이디어 웹페이지",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "author": "SUN8986",
+  "license": "ISC"
+}
