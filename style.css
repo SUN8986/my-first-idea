@@ -1,0 +1,744 @@
+/* ==========================================================================
+   CSS Design Tokens & Modern Dark Blue / Sapphire Theme System
+   ========================================================================== */
+:root {
+  --font-main: "Pretendard", "Outfit", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+  /* Color Palette - Vibrant Sapphire & Electric Blue */
+  --bg-dark: #030712;
+  --bg-surface: rgba(10, 18, 38, 0.68);
+  --bg-surface-hover: rgba(15, 27, 56, 0.85);
+  --bg-input: rgba(6, 12, 28, 0.8);
+
+  --text-primary: #f0f7ff;
+  --text-secondary: #93c5fd;
+  --text-tertiary: #60a5fa;
+  --text-accent: #38bdf8;
+
+  --accent-blue: #2563eb;
+  --accent-sapphire: #1d4ed8;
+  --accent-cyan: #06b6d4;
+  --accent-sky: #38bdf8;
+  --accent-cobalt: #1e40af;
+  --accent-ice: #e0f2fe;
+
+  --border-light: rgba(59, 130, 246, 0.18);
+  --border-highlight: rgba(147, 197, 253, 0.4);
+  --border-focus: rgba(56, 189, 248, 0.7);
+
+  --glow-blue: rgba(37, 99, 235, 0.45);
+  --glow-cyan: rgba(56, 189, 248, 0.35);
+  --glow-sapphire: rgba(29, 78, 216, 0.5);
+
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 32px;
+  --radius-full: 9999px;
+
+  --shadow-card: 0 35px 90px -15px rgba(2, 6, 23, 0.85), 0 0 1px 1px rgba(96, 165, 250, 0.18);
+  --shadow-glow: 0 0 50px rgba(37, 99, 235, 0.45);
+
+  --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   CSS Reset & Base Setup
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Screen reader utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ==========================================================================
+   Ambient Background Layer & Canvas
+   ========================================================================== */
+#ambient-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ambient-glow {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(130px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.65;
+  animation: floatOrb 20s ease-in-out infinite alternate;
+}
+
+.orb-sapphire {
+  top: 12%;
+  left: 15%;
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, #2563eb 0%, rgba(37, 99, 235, 0.4) 40%, transparent 70%);
+  animation-duration: 22s;
+}
+
+.orb-cyan {
+  bottom: 8%;
+  right: 12%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #0284c7 0%, rgba(56, 189, 248, 0.35) 45%, transparent 70%);
+  animation-duration: 26s;
+  animation-delay: -6s;
+}
+
+.orb-cobalt {
+  top: 45%;
+  left: 40%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, #1d4ed8 0%, rgba(30, 58, 138, 0.35) 50%, transparent 70%);
+  animation-duration: 18s;
+  animation-delay: -12s;
+}
+
+@keyframes floatOrb {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(50px, -45px) scale(1.18);
+  }
+  100% {
+    transform: translate(-40px, 35px) scale(0.9);
+  }
+}
+
+/* ==========================================================================
+   Centered Viewport Layout
+   ========================================================================== */
+.viewport-wrapper {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  z-index: 2;
+}
+
+.card-container {
+  perspective: 1200px;
+  width: 100%;
+  max-width: 720px;
+}
+
+/* ==========================================================================
+   Center Glassmorphic Card
+   ========================================================================== */
+.idea-glass-card {
+  position: relative;
+  background: var(--bg-surface);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 4rem 3.2rem 2.6rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.2s ease-out, box-shadow 0.35s ease, border-color 0.35s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.idea-glass-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(147, 197, 253, 0.45) 0%,
+    rgba(255, 255, 255, 0.05) 35%,
+    rgba(37, 99, 235, 0.5) 75%,
+    rgba(56, 189, 248, 0.6) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.idea-glass-card:hover {
+  border-color: var(--border-highlight);
+  box-shadow: var(--shadow-card), 0 0 65px -10px var(--glow-blue);
+}
+
+/* ==========================================================================
+   Card Header & Shimmering Blue Hero Title
+   ========================================================================== */
+.badge-wrapper {
+  margin-bottom: 2rem;
+}
+
+.sparkle-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 1.2rem;
+  background: rgba(37, 99, 235, 0.16);
+  border: 1px solid rgba(96, 165, 250, 0.38);
+  border-radius: var(--radius-full);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #93c5fd;
+  box-shadow: 0 2px 14px rgba(37, 99, 235, 0.25);
+  transition: var(--transition-smooth);
+}
+
+.sparkle-badge:hover {
+  background: rgba(37, 99, 235, 0.28);
+  border-color: rgba(147, 197, 253, 0.6);
+  transform: translateY(-1px);
+}
+
+.sparkle-icon {
+  font-size: 1rem;
+  animation: pulseRotate 4s ease-in-out infinite;
+}
+
+@keyframes pulseRotate {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.25) rotate(15deg); }
+}
+
+.card-header {
+  margin-bottom: 2.2rem;
+  width: 100%;
+}
+
+/* ==========================================================================
+   Main Sentence: Large Size & Striking Blue Color Palette
+   ========================================================================== */
+.hero-title {
+  /* Significantly larger size as requested */
+  font-size: clamp(3.2rem, 8.5vw, 5.2rem);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.35rem;
+  word-break: keep-all;
+  cursor: pointer;
+  user-select: none;
+}
+
+.title-shimmer {
+  /* Radiant, multifaceted blue gradient */
+  background: linear-gradient(
+    120deg,
+    #ffffff 0%,
+    #bae6fd 15%,
+    #60a5fa 35%,
+    #2563eb 55%,
+    #38bdf8 75%,
+    #1d4ed8 90%,
+    #ffffff 100%
+  );
+  background-size: 240% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerSweep 6s ease-in-out infinite alternate;
+  /* Deep oceanic blue glow */
+  filter: drop-shadow(0 4px 24px rgba(37, 99, 235, 0.55));
+  display: inline-block;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.hero-title:hover .title-shimmer {
+  filter: drop-shadow(0 6px 36px rgba(56, 189, 248, 0.8));
+  transform: scale(1.02);
+}
+
+@keyframes shimmerSweep {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.hero-subtitle {
+  font-size: clamp(1.05rem, 2.4vw, 1.22rem);
+  color: var(--text-secondary);
+  font-weight: 400;
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+/* ==========================================================================
+   Inspiration Box (Harmonized Blue Theme)
+   ========================================================================== */
+.inspiration-box {
+  width: 100%;
+  max-width: 540px;
+  background: rgba(14, 165, 233, 0.05);
+  border: 1px dashed rgba(96, 165, 250, 0.28);
+  border-radius: var(--radius-md);
+  padding: 1.2rem 1.6rem;
+  margin-bottom: 2.4rem;
+  font-size: 0.98rem;
+  color: #bfdbfe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: var(--transition-smooth);
+}
+
+.inspiration-box:hover {
+  background: rgba(14, 165, 233, 0.09);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+}
+
+.quote-mark {
+  color: var(--accent-sky);
+  font-size: 1.4rem;
+  line-height: 0;
+  opacity: 0.9;
+}
+
+#inspiration-text {
+  font-style: normal;
+  word-break: keep-all;
+  transition: opacity 0.3s ease;
+}
+
+/* ==========================================================================
+   Action Buttons Group (Deep Blue & Sapphire)
+   ========================================================================== */
+.action-buttons-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.95rem;
+  margin-bottom: 2.2rem;
+  width: 100%;
+}
+
+.primary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.8rem;
+  border-radius: var(--radius-full);
+  border: none;
+  background: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #1d4ed8 100%);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.98rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 24px rgba(37, 99, 235, 0.5);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.primary-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(255, 255, 255, 0.25), transparent);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 32px rgba(37, 99, 235, 0.75);
+}
+
+.primary-btn:hover::after {
+  opacity: 1;
+}
+
+.primary-btn:active {
+  transform: translateY(0);
+}
+
+.secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.6rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-light);
+  background: rgba(30, 58, 138, 0.2);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.98rem;
+  font-weight: 500;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: var(--transition-smooth);
+}
+
+.secondary-btn:hover {
+  background: rgba(30, 58, 138, 0.38);
+  border-color: var(--border-highlight);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.secondary-btn:active {
+  transform: translateY(0);
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-light);
+  background: rgba(30, 58, 138, 0.2);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.icon-btn:hover {
+  color: #ffffff;
+  background: rgba(37, 99, 235, 0.3);
+  border-color: var(--border-highlight);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Idea Drawer Section (Collapsible)
+   ========================================================================== */
+.idea-drawer {
+  width: 100%;
+  max-height: 800px;
+  opacity: 1;
+  transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, margin 0.35s ease;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.idea-drawer.hidden {
+  max-height: 0;
+  opacity: 0;
+  margin-bottom: 0;
+  pointer-events: none;
+}
+
+.drawer-inner {
+  background: rgba(6, 13, 30, 0.85);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.drawer-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-accent);
+  margin-bottom: 0.65rem;
+}
+
+.input-with-button textarea {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid rgba(96, 165, 250, 0.18);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.95rem;
+  resize: vertical;
+  min-height: 80px;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.input-with-button textarea:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+}
+
+.input-with-button textarea::placeholder {
+  color: #475569;
+}
+
+.drawer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.75rem;
+}
+
+.char-counter {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.save-btn {
+  padding: 0.5rem 1.3rem;
+  background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.4);
+  transition: var(--transition-smooth);
+}
+
+.save-btn:hover {
+  background: linear-gradient(135deg, #0369a1 0%, #1d4ed8 100%);
+  transform: translateY(-1px);
+}
+
+.saved-ideas-container {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  max-height: 190px;
+  overflow-y: auto;
+  padding-right: 0.3rem;
+}
+
+.saved-ideas-container::-webkit-scrollbar {
+  width: 4px;
+}
+.saved-ideas-container::-webkit-scrollbar-thumb {
+  background: rgba(96, 165, 250, 0.25);
+  border-radius: 4px;
+}
+
+.saved-idea-card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.85rem;
+  background: rgba(30, 58, 138, 0.16);
+  border: 1px solid rgba(96, 165, 250, 0.12);
+  border-radius: 8px;
+  padding: 0.75rem 0.95rem;
+  font-size: 0.88rem;
+  color: #e0f2fe;
+  animation: fadeIn 0.3s ease;
+}
+
+.saved-idea-text {
+  flex: 1;
+  word-break: break-word;
+}
+
+.delete-idea-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 2px 5px;
+  transition: color 0.2s;
+}
+
+.delete-idea-btn:hover {
+  color: #f87171;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   Card Footer & Status
+   ========================================================================== */
+.card-footer {
+  width: 100%;
+  border-top: 1px solid rgba(59, 130, 246, 0.14);
+  padding-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.84rem;
+  color: #64748b;
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #38bdf8;
+  font-weight: 500;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #38bdf8;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #38bdf8;
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.95); opacity: 0.7; box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
+  70% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 0 7px rgba(56, 189, 248, 0); }
+  100% { transform: scale(0.95); opacity: 0.7; box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+}
+
+.hint-text {
+  font-size: 0.8rem;
+  color: #60a5fa;
+  opacity: 0.75;
+}
+
+/* ==========================================================================
+   Micro Confetti / Particles Overlay
+   ========================================================================== */
+#particles-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: explode 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes explode {
+  0% {
+    transform: translate(0, 0) scale(1.3);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy)) scale(0);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   Toast Notification
+   ========================================================================== */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(10, 18, 38, 0.95);
+  border: 1px solid rgba(96, 165, 250, 0.35);
+  border-radius: var(--radius-full);
+  padding: 0.8rem 1.8rem;
+  color: #f0f7ff;
+  font-size: 0.92rem;
+  font-weight: 500;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65), 0 0 25px var(--glow-blue);
+  backdrop-filter: blur(18px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  z-index: 1000;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 640px) {
+  .viewport-wrapper {
+    padding: 1.8rem 1rem;
+  }
+
+  .idea-glass-card {
+    padding: 2.8rem 1.5rem 2rem;
+    border-radius: var(--radius-md);
+  }
+
+  .hero-title {
+    font-size: clamp(2.6rem, 11vw, 3.4rem);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .action-buttons-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .primary-btn, .secondary-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .icon-btn {
+    width: 100%;
+    border-radius: var(--radius-full);
+    height: 46px;
+  }
+
+  .card-footer {
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: center;
+  }
+}
